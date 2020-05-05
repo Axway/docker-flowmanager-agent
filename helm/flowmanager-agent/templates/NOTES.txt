@@ -1,0 +1,4 @@
+To tail the logs for the flowmanager-agent pod run the following:
+
+- POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l app={{ template "flowmanager-agent.name" . }} -o jsonpath='{ .items[0].metadata.name }')
+- kubectl logs -f $POD_NAME --namespace {{ .Release.Namespace }} 

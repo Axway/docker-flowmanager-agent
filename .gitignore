@@ -1,0 +1,5 @@
+conf/dosa-key.pem
+conf/dosa-public.pem
+conf/dosa.json
+*.subst
+.env

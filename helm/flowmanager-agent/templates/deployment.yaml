@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "flowmanager-agent.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app: {{ include "flowmanager-agent.name" . }}
+    chart: {{ include "flowmanager-agent.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "flowmanager-agent.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "flowmanager-agent.name" . }}
+        release: {{ .Release.Name }}
+      annotations:
+        {{ toYaml .Values.podAnnotations | indent 8 }}
+    spec:
+      serviceAccountName: {{ template "flowmanager-agent.serviceAccountName" . }}
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: NAME                                               # name of the agent
+            value: "{{ .Values.config.name }}"
+          - name: DOSA
+            value: /conf/dosa.json
+          - name: DOSA_KEY
+            value: /conf/dosa-key.pem
+          - name: ACCEPT_EULA
+            value: "{{ .Values.config.acceptEula }}" 
+          - name: DOSA_KEY_PASSWORD                                  # to be set if the KEY is secured
+            value: "{{ .Values.config.dosaKeyPassword }}"
+          - name: CACERT
+            value: "{{ .Values.config.cacert }}"                      # /conf/flowmanager-bridge.crt  Normally trusted by default
+          - name: INSECURE
+            value:  "{{ .Values.config.insecure }}"                   # Dangerous!!!
+          - name: SERVER
+            value:  "{{ .Values.config.server }}"                     # should no be changed
+          - name: COUNT
+            value:  "{{ .Values.config.count }}"                      # number of parallel connections
+          - name: SENDLOGS
+            value:  "{{ .Values.config.sendLogs }}"  
+          {{- range $key, $value := .Values.Env }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          volumeMounts:
+          - name: dosa-secrets-volume
+            mountPath: /conf
+          {{- if .Values.containerPort }}
+{{ toYaml .Values.containerPort | indent 12 }}
+          {{- end }}
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 12 }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 12 }}
+          {{- end }}
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+      - name: dosa-secrets-volume
+        secret:
+          {{- if .Values.secrets.dosa }}
+          secretName: {{ .Values.secrets.dosa }}
+          {{- else -}}
+          secretName: dosa-secrets-flowmanager-agent
+          {{- end }}

@@ -1,0 +1,88 @@
+# Default values for flowmanager-agent.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: flowmanager-agent
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart version.
+  tag: latest
+
+imagePullSecrets: ""
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  # name: ~
+
+rbac:
+  create: false
+
+pspEnable: false
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources:
+  # limits:
+  #   cpu: 200m
+  #   memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+
+livenessProbe: {}
+#   httpGet:
+#     path: /v1/status
+#     port: http
+#   initialDelaySeconds: 300
+#   periodSeconds: 20
+readinessProbe: {}
+#   httpGet:
+#     path: /v1/status
+#     port: http
+#   initialDelaySeconds: 60
+#   periodSeconds: 20
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+config:
+  name: "GLOBAL"
+  acceptEula: "false"
+  server: "flowmanager-bridge.axway.com:443"
+  insecure: ""
+  cacert: ""
+  dosaKeyPassword: ""
+  count: "2"
+  sendLogs: "true"
+
+Env: []
+
+secrets:
+  dosa: dosa-secrets
+

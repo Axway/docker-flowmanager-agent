@@ -1,0 +1,20 @@
+version: "2.3"
+services:
+  flowmanager-agent:
+    image: "${REPOSITORY:-flowmanager-agent}:${TAG:-latest}"
+    restart: "always"
+    environment:
+      ACCEPT_EULA: "${ACCEPT_EULA:-false}"                  # The EULA must be accepted before usage of this software
+      NAME: ${NAME:-GLOBAL}                                 # Name of the agent - should be unique per network zone
+      DOSA: /conf/dosa.json                                 #
+      DOSA_CERT: /conf/dosa-public.pem                      #
+      DOSA_KEY: /conf/dosa-key.pem                          #
+      DOSA_KEY_PASSWORD: "${DOSA_KEY_PASSWORD:-}"           # to be set if the dosa-key.pem is encrypted
+      CACERT: "${CACERT:-}"                                 # /conf/flowmanager-bridge.crt  Normally trusted by default
+      INSECURE: "${INSECURE:-}"                             # (support only) Dangerous!!! Disable server certificate check
+      SERVER: "${SERVER:-flowmanager-bridge.axway.com:443}" # (support only) Flow Manager Bridge address (host:port) MUST no be changed
+      COUNT: "${COUNT:-2}"                                  # (support only) number of parallel connections
+      SENDLOGS: "${SENDLOGS:-true}"                         # (support only) send agent logs to bridge for better support
+
+    volumes:
+      - ../conf:/conf:ro
