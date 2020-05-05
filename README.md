@@ -10,11 +10,11 @@ If needed, see [Get started with Docker](https://docs.docker.com/get-started/) f
 ## Prerequisites
 
 - a docker engine>1.13 (with docker-compose >1.17 ) or kubernetes >1.13 or openshift 3,4 or helm 2 or 3
-- retrieve flowmanager-agent docker image from [https//support.axway.com] as `flowmanager-agent.tar`
+- retrieve flowmanager-agent docker image from [https//support.axway.com] as `flowmanager-agent.tgz`
 
 ## Upload you image
 
-- `docker load --input flowmanager-agent.tar` the repository here supposes that the image is called `axway/flowmanager-agent:latest`
+- `docker load --input flowmanager-agent.tgz` the repository here supposes that the image is called `axway/flowmanager-agent:latest`
 
 ## Basic Configuration
 
