@@ -12,7 +12,7 @@ services:
       DOSA_KEY_PASSWORD: "${DOSA_KEY_PASSWORD:-}"           # to be set if the dosa-key.pem is encrypted
       CACERT: "${CACERT:-}"                                 # /conf/flowmanager-bridge.crt  Normally trusted by default
       INSECURE: "${INSECURE:-}"                             # (support only) Dangerous!!! Disable server certificate check
-      SERVER: "${SERVER:-flowmanager-bridge.axway.com:443}" # (support only) Flow Manager Bridge address (host:port) MUST no be changed
+      SERVER: "${SERVER:-flowmanager-bridge.axway.com:443}" # (support only) Flow Manager Bridge address (host:port) MUST not be changed
       COUNT: "${COUNT:-2}"                                  # (support only) number of parallel connections
       SENDLOGS: "${SENDLOGS:-true}"                         # (support only) send agent logs to bridge for better support
 
