@@ -10,11 +10,11 @@ If needed, see [Get started with Docker](https://docs.docker.com/get-started/) f
 ## Prerequisites
 
 - a docker engine>1.13 (with docker-compose >1.17 ) or kubernetes >1.13 or openshift 3,4 or helm 2 or 3
-- retrieve flowmanager-agent docker image from [https//support.axway.com] as `flowmanager-agent.tgz`
+- retrieve flowmanager-agent docker image from [https//support.axway.com] as `flowmanager-agent.tar`
 
 ## Upload you image
 
-- `docker load --input flowmanager-agent.tgz` the repository here supposes that the image is called `axway/flowmanager-agent:latest`
+- `docker load --input flowmanager-agent.tar` the repository here supposes that the image is called `axway/flowmanager-agent:latest`
 
 ## Basic Configuration
 
@@ -30,7 +30,8 @@ DOSA=/conf/dosa.json                   # Generated when creating service account
 ### generate and register DOSA key in AMPLIFY platform
 
 - generate a pubkey/priv key in `./conf/dosa-key.pem` `./conf/dosa-public.pem`
-  - `openssl req -x509 -newkey rsa:4096 -keyout "./conf/dosa-key.pem" -out "./conf/dosa-public.pem" -nodes  -days 10 > /dev/null 2>&1`
+  - `openssl genrsa -out "./conf/dosa-key.pem" 2048`
+  - `openssl rsa -in "./conf/dosa-key.pem" -outform PEM -pubout -out "./conf/dosa-key.pem"`
 - create a Service Account in [https://apicentral.axway.com/access/service-accounts]
   - you need to have an administrator role
 - copy the generated DOSA json file in `./conf/dosa.json`
@@ -43,7 +44,8 @@ edit `./compose/.env`
 
 ```sh
 cat > ./compose/.env <<EOF
-IMAGE=axway/flowmanager-agent:latest
+REPOSITORY=axway/flowmanager-agent
+TAG=latest
 NAME=GLOBAL
 ACCEPT_EULA=True
 EOF
@@ -58,13 +60,14 @@ docker-compose up -d
 
 please edit `./k8s/flowmanager-agent-deployment.yml`
 customize
+
 - `spec.template.spec.containers[0].image="axway/flowmanager-agent:latest"`
 - `spec.template.spec.containers[0].env[name="name"].value="GLOBAL"`
 - `spec.template.spec.containers[0].env[name="ACCEPT_EULA"]="true"` if you accept the EULA
 
 ```sh
-    kubectl create secret generic dosa-secrets --from-file=../conf/dosa-key.pem --from-file=../conf/dosa-public.pem --from-file=../conf/dosa.json
-    kubectl create -f ./k8s/flowmanager-agent-deployment.yml
+  kubectl create secret generic dosa-secrets --from-file=../conf/dosa-key.pem --from-file=../conf/dosa-public.pem --from-file=../conf/dosa.json
+  kubectl create -f ./k8s/flowmanager-agent-deployment.yml
 ```
 
 #### using helm

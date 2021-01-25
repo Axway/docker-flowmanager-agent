@@ -1,4 +1,5 @@
 #!/bin/bash
 #
 
-openssl req -x509 -newkey rsa:4096 -keyout "./conf/dosa-key.pem" -out "./conf/dosa-public.pem" -nodes  -days 10 > /dev/null 2>&1
+openssl genrsa -out "./conf/dosa-key.pem" 2048
+openssl rsa -in "./conf/dosa-key.pem" -outform PEM -pubout -out "./conf/dosa-key.pem"
