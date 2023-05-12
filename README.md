@@ -1,4 +1,4 @@
-# AMPLIFY Flow Manager Agent
+# Flow Manager Agent
 
 The purpose of this agent is to be create a bridge between AMPLIFY Flow Manager Service and managed product installed in secured zones.
 
