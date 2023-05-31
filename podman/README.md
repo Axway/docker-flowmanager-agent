@@ -25,7 +25,7 @@ This README refers to managing installations of Flow Manager Agent using `podman
     DOSA_CERT=/conf/dosa-public.pem        # generate a x509 rsa:4096 key pair to be used to create service account
     DOSA_KEY=/conf/dosa-key.pem            #
     DOSA_KEY_PASSWORD=""                   # If dosa-key is protected
-    DOSA=/conf/dosa.json                   # Generated when creating service account on AMPLIFY platform (https://apicentral.axway.com/access/service-accounts)
+    DOSA=/conf/dosa.json                   
     ```
 * Start agent using `./agent_helper.sh start`
 

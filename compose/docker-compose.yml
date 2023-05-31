@@ -1,7 +1,7 @@
 version: "2.3"
 services:
   flowmanager-agent:
-    image: "${REPOSITORY:-flowmanager-agent}:${TAG:-latest}"
+    image: "${REPOSITORY:-docker.repository.axway.com/flowmanager-agent-docker-prod/2.0/release}:${TAG}"
     restart: "always"
     environment:
       ACCEPT_EULA: "${ACCEPT_EULA:-false}"                  # The EULA must be accepted before usage of this software
@@ -12,7 +12,7 @@ services:
       DOSA_KEY_PASSWORD: "${DOSA_KEY_PASSWORD:-}"           # to be set if the dosa-key.pem is encrypted
       CACERT: "${CACERT:-}"                                 # /conf/flowmanager-bridge.crt  Normally trusted by default
       INSECURE: "${INSECURE:-}"                             # (support only) Dangerous!!! Disable server certificate check
-      SERVER: "${SERVER:-flowmanager-bridge.axway.com:443}" # (support only) Flow Manager Bridge address (host:port) MUST not be changed
+      SERVER: "${SERVER:-}"                                 # Flow Manager Bridge address (host:port)
       COUNT: "${COUNT:-2}"                                  # (support only) number of parallel connections
       SENDLOGS: "${SENDLOGS:-true}"                         # (support only) send agent logs to bridge for better support
 

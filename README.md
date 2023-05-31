@@ -14,17 +14,17 @@ If needed, see [Get started with Docker](https://docs.docker.com/get-started/) f
 
 ## Upload you image
 
-- `docker load --input flowmanager-agent.tar` the repository here supposes that the image is called `axway/flowmanager-agent:latest`
+- `docker load --input flowmanager-agent.tar` the repository here supposes that the image is called `docker.repository.axway.com/flowmanager-agent-docker-prod/2.0/release:<TAG>`
 
 ## Basic Configuration
 
 ```sh
-IMAGE=axway/flowmanager-agent:latest   # from https//support.axway.com
-NAME=GLOBAL                            # Choose an appropriate name for your agent/network zone
-DOSA_CERT=/conf/dosa-public.pem        # generate a x509 rsa:4096 key pair to be used to create service account
-DOSA_KEY=/conf/dosa-key.pem            #
-DOSA_KEY_PASSWORD=""                   # If dosa-key is protected
-DOSA=/conf/dosa.json                   # Generated when creating service account on AMPLIFY platform (https://apicentral.axway.com/access/service-accounts)
+IMAGE=docker.repository.axway.com/flowmanager-agent-docker-prod/2.0/release:<TAG> # from https//support.axway.com
+NAME=GLOBAL                                                                       # Choose an appropriate name for your agent/network zone
+DOSA_CERT=/conf/dosa-public.pem                                                   # generate a x509 rsa:4096 key pair to be used to create service account
+DOSA_KEY=/conf/dosa-key.pem                                                       #
+DOSA_KEY_PASSWORD=""                                                              # If dosa-key is protected
+DOSA=/conf/dosa.json                   
 ```
 
 ### generate and register DOSA key in AMPLIFY platform
@@ -44,8 +44,8 @@ edit `./compose/.env`
 
 ```sh
 cat > ./compose/.env <<EOF
-REPOSITORY=axway/flowmanager-agent
-TAG=latest
+REPOSITORY=docker.repository.axway.com/flowmanager-agent-docker-prod/2.0/release
+TAG=<REPLACE_ME>
 NAME=GLOBAL
 ACCEPT_EULA=True
 EOF
@@ -61,7 +61,7 @@ docker-compose up -d
 please edit `./k8s/flowmanager-agent-deployment.yml`
 customize
 
-- `spec.template.spec.containers[0].image="axway/flowmanager-agent:latest"`
+- `spec.template.spec.containers[0].image="docker.repository.axway.com/flowmanager-agent-docker-prod/2.0/release:<TAG>"`
 - `spec.template.spec.containers[0].env[name="name"].value="GLOBAL"`
 - `spec.template.spec.containers[0].env[name="ACCEPT_EULA"]="true"` if you accept the EULA
 

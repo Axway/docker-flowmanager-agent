@@ -6,7 +6,7 @@ metadata:
   name: agent_pod
 spec:
   containers:
-  - image: flowmanager-agent:stable
+  - image: docker.repository.axway.com/flowmanager-agent-docker-prod/2.0/release:<TAG>
     name: agent
     resources:
       requests:
