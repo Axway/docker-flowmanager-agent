@@ -103,3 +103,6 @@ cat >fm-agent-dosa.json <<EOF
 EOF
 
 echo $PASSWORD > password-file
+
+chmod 644 fm-agent-cert-key.pem
+chmod 644 fm-agent-jwt-private-key.pem
