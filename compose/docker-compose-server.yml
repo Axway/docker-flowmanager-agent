@@ -7,7 +7,6 @@ services:
       ACCEPT_EULA:             "false"
       NAME:                    ""
       DOSA:                    "/conf/fm-agent-dosa.json"
-      DOSA_CERT:               "/conf/fm-agent-jwt-public-key.pem"
       DOSA_KEY:                "/conf/fm-agent-jwt-private-key.pem"
       DOSA_KEY_PASSWORD_FILE:  "/conf/password-file"
       HTTP_PORT:               "8080"
