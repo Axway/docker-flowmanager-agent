@@ -14,7 +14,7 @@ services:
       AGENT_PORT:              "8443"
       WHITELIST:               "*"
       SERVER:                  ""
-      SERVER_CA:               "-"
+      SERVER_CA:               ""
     ports:
     # Agent HTTP port for relaying HTTP CFT calls, metrics, and health endpoints
     - "8080:8080"
