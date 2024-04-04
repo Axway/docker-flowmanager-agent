@@ -106,3 +106,6 @@ echo $PASSWORD > password-file
 
 chmod 644 fm-agent-cert-key.pem
 chmod 644 fm-agent-jwt-private-key.pem
+
+sed -i "s#NAME:.*#NAME:                    \"agent-$(hostname -f)\"#g" ../compose/docker-compose-client.yml
+sed -i "s#NAME:.*#NAME:                    \"agent-$(hostname -f)\"#g" ../compose/docker-compose-server.yml
