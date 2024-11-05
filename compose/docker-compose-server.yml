@@ -17,6 +17,8 @@ services:
       AGENT_KEY:               "/conf/fm-agent-cert-key.pem"
       AGENT_KEY_PASSWORD_FILE: "/conf/password-file"
       SERVICE_ACCOUNTS_FILE:   "/conf/service-accounts.json"
+      TLS_MIN_VERSION:         ""
+      TLS_MAX_VERSION:         ""
     ports:
     # Agent HTTP port for relaying HTTP CFT calls, metrics, and health endpoints
     - "8080:8080"
